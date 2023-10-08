@@ -65,7 +65,43 @@ Watch a video demonstration of our app's features and functionalities:
 
 ## Colaborators
 
-
-
+<table>
+  <tr>
+    </td>
+    <td align="center">
+      <a href="#">
+        <img src="https://avatars.githubusercontent.com/u/102334356?v=4" width="100px;" alt="Foto João Runkel"/><br>
+        <sub>
+          <b>João Runkel</b>
+          </p>joaorunkel
+        </sub>
+      </a>
+      </td>
+    <td align="center">
+      <a href="#">
+        <img src="https://avatars.githubusercontent.com/u/37637934?v=4" width="100px;" alt="Foto Joaquim Gomes"/><br>
+        <sub>
+          <b>Joaquim Gomes</b>
+          </p>joaquim-og
+        </sub>
+      </a>
+      </td>
+    <td align="center">
+      <a href="#">
+        <img src="https://avatars.githubusercontent.com/u/72623771?v=4" width="100px;" alt="Foto Letícia Aires"/><br>
+        <sub>
+          <b>Letícia Aires</b>
+          </p>LeticiaAires
+        </sub>
+      </a>
+      </td>
+    <td align="center">
+      <a href="#">
+        <img src="https://avatars.githubusercontent.com/u/82895172?v=4" width="100px;" alt="Foto Otavio Maya"/><br>
+        <sub>
+          <b>Otávio Maya</b>
+          </p>knz13
+        </sub>
+      </a>
 
 
