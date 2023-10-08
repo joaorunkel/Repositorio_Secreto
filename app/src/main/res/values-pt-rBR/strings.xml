@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--    Permissions-->
+    <string name="permissions_dialog_title">Permissões necessárias</string>
+    <string name="permissions_dialog_text_body">Precisamos de algumas permissões para que o aplicativo funcione adequadamente</string>
+    <string name="permissions_dialog_permanently_rational_text_body">Parece que algumas permissões necessárias não estão habilitadas, acesse as configurações do aplicativo para ajustá-las</string>
+    <string name="permissions_dialog_permanently_deny">Configurar permissões</string>
+    <string name="dialog_positive_button">OK</string>
+
+    <!--    Map Screen-->
+    <string name="home_screen_action_text">Utilize a barra acima para determinar um raio de busca</string>
+    <string name="home_screen_action_button">Pesquisar registros no raio de #value km</string>
+    <string name="home_screen_emptySearchFeedback">Não há registros na área procurada, tente aumentar o raio de busca</string>
+    <string name="home_screen_connectionErrorMessage">⚠️🛜Sem conexão de dados disponível⚠️🛜</string>
+
+    <string name="generic_full_screen_dialog_title">Full screen dialog title</string>
+    <string name="generic_full_screen_save_button_title">Salvar</string>
+    <string name="generic_close_description">Fechar</string>
+    <string name="waterly_data">Registros de água</string>
+    <string name="fauna_data">Registros de fauna</string>
+    <string name="flora_data">Registros de flora</string>
+
+</resources>

@@ -2,21 +2,24 @@
     <string name="app_name">Waterly</string>
 
     <!--    Permissions-->
-    <string name="permissions_dialog_title">Permissões necessárias</string>
-    <string name="permissions_dialog_text_body">Precisamos de algumas permissões para que o aplicativo funcione adequadamente</string>
-    <string name="permissions_dialog_permanently_rational_text_body">Parece que algumas permissões necessárias não estão habilitadas, acesse as configurações do aplicativo para ajustá-las</string>
-    <string name="permissions_dialog_permanently_deny">Configurar permissões</string>
+    <string name="permissions_dialog_title">Necessary permissions</string>
+    <string name="permissions_dialog_text_body">We need some permissions for the correct app usability</string>
+    <string name="permissions_dialog_permanently_rational_text_body">Seems that some necessary permissions isn\'t enabled, please allow them in app configuration.</string>
+    <string name="permissions_dialog_permanently_deny">Configure permissions</string>
     <string name="dialog_positive_button">OK</string>
 
     <!--    Map Screen-->
-    <string name="home_screen_action_text">Utilize a barra acima para determinar um raio de busca</string>
-    <string name="home_screen_action_button">Pesquisar registros no raio de #value km</string>
-    <string name="home_screen_emptySearchFeedback">Não há registros na área procurada, tente aumentar o raio de busca</string>
-    <string name="home_screen_connectionErrorMessage">⚠️🛜Sem conexão de dados disponível⚠️🛜</string>
+    <string name="home_screen_action_text">Use slider above to set search radius</string>
+    <string name="home_screen_action_button">Search data within #value km radius</string>
+    <string name="home_screen_emptySearchFeedback">No data within search area, try with higher radius</string>
+    <string name="home_screen_connectionErrorMessage">⚠️🛜No internet connection⚠️🛜</string>
 
     <string name="generic_full_screen_dialog_title">Full screen dialog title</string>
-    <string name="generic_full_screen_save_button_title">Salvar</string>
-    <string name="generic_close_description">Fechar</string>
+    <string name="generic_full_screen_save_button_title">Save</string>
+    <string name="generic_close_description">Close</string>
+    <string name="waterly_data">Water data</string>
+    <string name="fauna_data">Fauna data</string>
+    <string name="flora_data">Flora data</string>
 
 
 </resources>
