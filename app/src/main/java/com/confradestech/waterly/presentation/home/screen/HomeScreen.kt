@@ -299,7 +299,10 @@ fun HomeScreen(
                         ) {
                             Button(
                                 modifier = Modifier.fillMaxWidth(),
-                                onClick = { openWaterMoreInfo(it) },
+                                onClick = {
+                                    openWaterMoreInfo(it)
+                                    waterEntryToShowMore.value = null
+                                },
                                 content = {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),

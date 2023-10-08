@@ -9,13 +9,19 @@ import androidx.lifecycle.viewModelScope
 import com.confradestech.waterly.datasources.models.FaunaEntry
 import com.confradestech.waterly.datasources.models.FloraEntry
 import com.confradestech.waterly.datasources.models.WaterEntry
+import com.confradestech.waterly.datasources.models.WaterSample
+import com.confradestech.waterly.datasources.models.WaterSampleParameters
 import com.confradestech.waterly.datasources.states.HomeFragmentState
+import com.confradestech.waterly.datasources.states.SelectedWaterDataState
 import com.confradestech.waterly.utilites.CommonConstants.FIRESTORE_FAUNA_DATA
 import com.confradestech.waterly.utilites.CommonConstants.FIRESTORE_FLORA_DATA
+import com.confradestech.waterly.utilites.CommonConstants.FIRESTORE_PARAMETERS
+import com.confradestech.waterly.utilites.CommonConstants.FIRESTORE_SAMPLES
 import com.confradestech.waterly.utilites.CommonConstants.FIRESTORE_WATERLY_DATA
 import com.confradestech.waterly.utilites.CommonConstants.INVALID_DOUBLE
 import com.confradestech.waterly.utilites.CommonConstants.INVALID_LAT_LNG
 import com.confradestech.waterly.utilites.CommonConstants.requestDispatchers
+import com.confradestech.waterly.utilites.extensions.toDate
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
 import com.google.android.gms.tasks.Task
@@ -36,51 +42,10 @@ class HomeViewModel @Inject constructor(
     var homeFragmentState by mutableStateOf(HomeFragmentState())
         private set
 
+    var selectedWaterEntryState by mutableStateOf(SelectedWaterDataState())
+        private set
+
     private val lock = Any()
-
-    //TODO
-    // query this using geohash
-    // do it in usecase, repository arch ad emit with flow
-    fun fetchNearbyWaterEntries() {
-        viewModelScope.launch(requestDispatchers) {
-            updateLoadingState(true)
-            val waterEntries = mutableListOf<WaterEntry>()
-            firestore.collection(FIRESTORE_WATERLY_DATA).get()
-                .addOnSuccessListener { result ->
-                    result.forEach { document ->
-                        val waterEntry = document.toObject<WaterEntry>()
-                        waterEntries.add(
-                            waterEntry.copy(
-                                id = document.id
-                            )
-                        )
-                        updateWaterEntriesState(waterEntries)
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    updateErrorState(exception)
-                }
-        }
-    }
-
-    //TODO
-    // logica para dar update do hash
-    // se o pessoal não conseguir pelo script a gente pensa por aqui
-    fun updateGeoHash() {
-        val ref = firestore.collection(FIRESTORE_WATERLY_DATA).document("BRA01322")
-
-        val geoHash = GeoFireUtils.getGeoHashForLocation(GeoLocation(-15.797297, -47.784172222))
-
-        val updates: MutableMap<String, Any> = mutableMapOf(
-            "geoHash" to geoHash
-        )
-
-        ref.update(
-            updates
-        ).addOnCompleteListener {
-            "Xablau aqui terminado o update"
-        }
-    }
 
     fun searchNearWaterEntries(radiusToSearch: Float) {
         viewModelScope.launch(requestDispatchers) {
@@ -332,4 +297,109 @@ class HomeViewModel @Inject constructor(
             )
         }
     }
+
+    fun setSelectedWaterEntry(waterEntry: WaterEntry?) {
+        updateWaterDataEntryState(waterEntry)
+        searchWaterDataSamples(waterEntry?.id)
+    }
+
+    private fun searchWaterDataSamples(waterEntryId: String?) {
+        viewModelScope.launch(requestDispatchers) {
+            updateWaterDataDetailsLoadingState(true)
+            val waterDataSamples = mutableListOf<WaterSample>()
+            firestore.collection(FIRESTORE_SAMPLES)
+                .whereEqualTo("gems_station_number", waterEntryId)
+                .get()
+                .addOnSuccessListener { result ->
+                    updateWaterDataDetailsLoadingState(false)
+                    result.forEach { document ->
+                        val waterSample = document.toObject<WaterSample>()
+                        waterDataSamples.add(
+                            waterSample.copy(
+                                id = document.id,
+                                translatedDate = waterSample.sample_date.toDate()
+                            )
+                        )
+                    }
+                    waterDataSamples.sortBy { it.translatedDate }
+                    waterDataSamples.firstOrNull()?.let {
+                        updateWaterDataEntrySamplesState(listOf(it))
+                        searchSamplesParameters(it.parameter_code)
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    updateWaterDataEntryErrorState(exception)
+                }
+        }
+    }
+
+    private fun searchSamplesParameters(parameterCode: String) {
+        viewModelScope.launch(requestDispatchers) {
+            updateWaterDataDetailsLoadingState(true)
+            val waterDataParameters = mutableListOf<WaterSampleParameters>()
+            firestore.collection(FIRESTORE_PARAMETERS)
+                .whereEqualTo("parameter_code", parameterCode)
+                .get()
+                .addOnSuccessListener { result ->
+                    updateWaterDataDetailsLoadingState(false)
+                    result.forEach { document ->
+                        val waterSampleParameters = document.toObject<WaterSampleParameters>()
+                        waterDataParameters.add(
+                            waterSampleParameters.copy(
+                                id = document.id
+                            )
+                        )
+                    }
+                    updateWaterDataEntrySamplesParametersState(waterDataParameters)
+                }
+                .addOnFailureListener { exception ->
+                    updateWaterDataEntryErrorState(exception)
+                }
+        }
+    }
+
+    private fun updateWaterDataDetailsLoadingState(isLoading: Boolean?) {
+        synchronized(lock) {
+            selectedWaterEntryState = selectedWaterEntryState.copy(
+                isLoading = isLoading
+            )
+        }
+    }
+
+    private fun updateWaterDataEntryState(waterEntry: WaterEntry?) {
+        synchronized(lock) {
+            selectedWaterEntryState = selectedWaterEntryState.copy(
+                waterEntry = waterEntry
+            )
+            updateWaterDataDetailsLoadingState(false)
+        }
+    }
+
+    private fun updateWaterDataEntrySamplesState(waterSamples: List<WaterSample>?) {
+        synchronized(lock) {
+            selectedWaterEntryState = selectedWaterEntryState.copy(
+                waterSamples = waterSamples
+            )
+            updateWaterDataDetailsLoadingState(false)
+        }
+    }
+
+    private fun updateWaterDataEntrySamplesParametersState(waterSamplesParameters: List<WaterSampleParameters>?) {
+        synchronized(lock) {
+            selectedWaterEntryState = selectedWaterEntryState.copy(
+                waterSamplesParameters = waterSamplesParameters
+            )
+            updateWaterDataDetailsLoadingState(false)
+        }
+    }
+
+    private fun updateWaterDataEntryErrorState(error: Throwable?) {
+        synchronized(lock) {
+            selectedWaterEntryState = selectedWaterEntryState.copy(
+                error = error
+            )
+            updateWaterDataDetailsLoadingState(false)
+        }
+    }
+
 }

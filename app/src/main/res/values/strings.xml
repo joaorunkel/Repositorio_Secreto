@@ -29,5 +29,134 @@
     <string name="station_identifier">Station: #name</string>
     <string name="more_info">More info about #name</string>
 
+    <!--   WaterDetails-->
+    <string name="no_sample_data">No sample data to show</string>
+    <string name="no_parameters_data">No sample paremeters data to show</string>
+    <string name="parameters_code">Parameter code: #value</string>
+    <string name="parameters_value">Parameter value: #value</string>
+    <string name="parameters_risk_concern">Risk concern value: #value</string>
+    <string name="parameters_description">Parameter description: #value</string>
+    <string name="water_details_title">#value water Details</string>
 
+    <!--   Paremeters alerts-->
+    <string name="parameters_As_Dis_Long_Name">Arsenic - Dissolved</string>
+    <string name="parameters_As_Dis_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments</string>
+    <string name="parameters_As_Dis_Consequencs">Acute Poisoning: Abdominal pain, nausea, vomiting, diarrhea and death
+Chronic Effects: Cancer, skin leasions, neurological effects, cardiovascular issues, diabetes and respiratory problems</string>
+    <string name="parameters_As_Dis_treatment_Recommendation">In order to remove Arsenic from the water one must use dystilation, activated alumina or reversed osmosis.</string>
+
+    <string name="parameters_As_Tot_Long_Name">Arsenic - Total</string>
+    <string name="parameters_As_Tot_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments</string>
+    <string name="parameters_As_Tot_Consequencs">Acute Poisoning: Abdominal pain, nausea, vomiting, diarrhea and death
+Chronic Effects: Cancer, skin leasions, neurological effects, cardiovascular issues, diabetes and respiratory problems</string>
+    <string name="parameters_As_Tot_treatment_Recommendation">In order to remove Arsenic from the water one must use dystilation, activated alumina or reversed osmosis.</string>
+
+    <string name="parameters_Cd_Dis_Long_Name">Cadmium - Dissolved</string>
+    <string name="parameters_Cd_Dis_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments</string>
+    <string name="parameters_Cd_Dis_Consequencs">Acute Poisoning: Abdominal pain, nausea, vomiting, diarrhea, respiratory distress and death.
+Chronic Effects: Kidney damage, bone damage, cardiolascular issues, respiratory problems, cancer, reproductive and developmental effects.</string>
+    <string name="parameters_Cd_Dis_treatment_Recommendation">In order to remove Cadmium from the water one must use activated carbon filtration, reversed osmosis and ion exchange.</string>
+
+    <string name="parameters_Cd_Tot_Long_Name">Cadmium - Total</string>
+    <string name="parameters_Cd_Tot_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments</string>
+    <string name="parameters_Cd_Tot_Consequencs">Acute Poisoning: Abdominal pain, nausea, vomiting, diarrhea, respiratory distress and death.
+Chronic Effects: Kidney damage, bone damage, cardiolascular issues, respiratory problems, cancer, reproductive and developmental effects.</string>
+    <string name="parameters_Cd_Tot_treatment_Recommendation">In order to remove Cadmium from the water one must use activated carbon filtration, reversed osmosis and ion exchange.</string>
+
+    <string name="parameters_CN_Tot_Long_Name">Cyanide- Total</string>
+    <string name="parameters_CN_Tot_health_Recommendation">It is strongly advised to keep away from any Cyanide contaminated water.</string>
+    <string name="parameters_CN_Tot_Consequencs">Acute Poisoning: Rapid breathing, rapid herat rate, nausea, vomiting, headache, confusion, dizziness, seizures, respiratory distress, cardiovascular effects, coma and death.
+Chronic Effects: Neurological impairment and cardiac damage.</string>
+    <string name="parameters_CN_Tot_treatment_Recommendation">No treatment available. Report to authoraties.</string>
+
+    <string name="parameters_Cr_Dis_Long_Name">Chromium - Dissolved</string>
+    <string name="parameters_Cr_Dis_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments</string>
+    <string name="parameters_Cr_Dis_Consequencs">Acute Poisoning: Respiratory effects, gastrointestinal effects and skin irritation.
+Chronic Effects: Cancer and respiratory effects.</string>
+    <string name="parameters_Cr_Dis_treatment_Recommendation">In order to remove Chromium from the water one must use specialized filters, ion exchange and reversed osmosis.</string>
+
+    <string name="parameters_Cr_Tot_Long_Name">Chromium - Total</string>
+    <string name="parameters_Cr_Tot_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments</string>
+    <string name="parameters_Cr_Tot_Consequencs">Acute Poisoning: Respiratory effects, gastrointestinal effects and skin irritation.
+Chronic Effects: Cancer and respiratory effects.</string>
+    <string name="parameters_Cr_Tot_treatment_Recommendation">In order to remove Chromium from the water one must use specialized filters, ion exchange and reversed osmosis.</string>
+
+    <string name="parameters_Cr_VI_Long_Name">Chromium - Hexavalent</string>
+    <string name="parameters_Cr_VI_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments</string>
+    <string name="parameters_Cr_VI_Consequencs">Acute Poisoning: Respiratory effects, gastrointestinal effects and skin irritation.
+Chronic Effects: Cancer and respiratory effects.</string>
+    <string name="parameters_Cr_VI_treatment_Recommendation">In order to remove Chromium from the water one must use specialized filters, ion exchange and reversed osmosis.</string>
+
+    <string name="parameters_DIELDRIN_Long_Name">Dieldrin</string>
+    <string name="parameters_DIELDRIN_health_Recommendation">It is strongly advised to keep away from any Dieldrin contaminated water.</string>
+    <string name="parameters_DIELDRIN_Consequencs">Acute Poisoning: Dizziness, headache, conffusion, seizures, nausea, vomiting, diaherrea and skin irritation.
+Chronic Effects: Seizures, cognitive deficits, fertility problems, cancer, immune system problems, liver and kidney harm.</string>
+    <string name="parameters_DIELDRIN_treatment_Recommendation">No treatment available. Report to authoraties.</string>
+
+    <string name="parameters_ENDRIN_Long_Name">Endrin</string>
+    <string name="parameters_ENDRIN_health_Recommendation">It is strongly advised to keep away from any Endrin contaminated water.</string>
+    <string name="parameters_ENDRIN_Consequencs">Acute Poisoning: Dizziness, headache, conffusion, seizures, nausea, vomiting, diaherrea and skin irritation.
+Chronic Effects: Seizures, cognitive deficits, fertility problems, cancer, immune system problems, liver and kidney harm.</string>
+    <string name="parameters_ENDRIN_treatment_Recommendation">No treatment available. Report to authoraties.</string>
+
+    <string name="parameters_FECALCOLI_Long_Name">Fecal Coliform</string>
+    <string name="parameters_FECALCOLI_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments. Avoid skin contact.</string>
+    <string name="parameters_FECALCOLI_Consequencs">Acute Poisoning: Diarrhea, abdominal pain, nausea, vomiting, fever, dehydration, accute gastrointeritis and infectious diseases.
+Chronic Effects: Recurrent infections, comprimised immune system, irritable bowel and inflammatory bowel disease.</string>
+    <string name="parameters_FECALCOLI_treatment_Recommendation">In order ro remove Fecal Coliform from the water one must boil for 1 minute, use purification tablets, chlorine and water filters.</string>
+
+    <string name="parameters_FECALSTREP_Long_Name">Fecal Coliform</string>
+    <string name="parameters_FECALSTREP_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments. Avoid skin contact.</string>
+    <string name="parameters_FECALSTREP_Consequencs">Acute Poisoning: Diarrhea, abdominal pain, nausea, vomiting, fever, dehydration, accute gastrointeritis and infectious diseases.
+Chronic Effects: Recurrent infections, comprimised immune system, irritable bowel and inflammatory bowel disease.</string>
+    <string name="parameters_FECALSTREP_treatment_Recommendation">In order ro remove Fecal Streptococci from the water one must boil for 1 minute, use purification tablets, chlorine and water filters.</string>
+
+    <string name="parameters_Hg_Dis_Long_Name">Mercury - Dissolved</string>
+    <string name="parameters_Hg_Dis_health_Recommendation">It is strongly advised to keep away from any Mercury contaminated water.</string>
+    <string name="parameters_Hg_Dis_Consequencs">Acute Poisoning: Diarrhea, abdominal pain, nausea, vomiting, headache, muscle weakness, chest pain, coughing, respiratory distress, skin irritation and rashes.
+Chronic Effects: Memory problems, coordination issues, muscle atrophy, vision disturbances, elevated blood pressure, heart disease, kidney damage, impared cognitive and motor skilss, depression, anxiety and gum inflammation.</string>
+    <string name="parameters_Hg_Dis_treatment_Recommendation">No treatment available. Report to authoraties.</string>
+
+    <string name="parameters_Hg_Tot_Long_Name">Mercury - Total</string>
+    <string name="parameters_Hg_Tot_health_Recommendation">It is strongly advised to keep away from any Mercury contaminated water.</string>
+    <string name="parameters_Hg_Tot_Consequencs">Acute Poisoning: Diarrhea, abdominal pain, nausea, vomiting, headache, muscle weakness, chest pain, coughing, respiratory distress, skin irritation and rashes.
+Chronic Effects: Memory problems, coordination issues, muscle atrophy, vision disturbances, elevated blood pressure, heart disease, kidney damage, impared cognitive and motor skilss, depression, anxiety and gum inflammation.</string>
+    <string name="parameters_Hg_Tot_treatment_Recommendation">No treatment available. Report to authoraties.</string>
+
+    <string name="parameters_O2_Dis_Long_Name">Dissolved Oxygen</string>
+    <string name="parameters_O2_Dis_health_Recommendation">High levels of dissolved O2 in the water may be caused by polution</string>
+    <string name="parameters_O2_Dis_Consequencs"></string>
+    <string name="parameters_O2_Dis_treatment_Recommendation"></string>
+
+    <string name="parameters_Pb_Dis_Long_Name">Lead Dissolved</string>
+    <string name="parameters_Pb_Dis_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments. Avoid skin contact.</string>
+    <string name="parameters_Pb_Dis_Consequencs">Acute Poisoning: Diarrhea, abdominal pain, nausea, vomiting and irritavility fatigue.
+Chronic Effects:  Impared cognitive and motor skilss, memory difficulties, muscle weakness, abdominal pain, high blood pressure, heart disease, kidney damage and immune system effects.</string>
+    <string name="parameters_Pb_Dis_treatment_Recommendation">In order ro remove Lead from the water one must use specific filter for Lead removing filters and reverse osmosis.</string>
+
+    <string name="parameters_Pb_Tot_Long_Name">Lead Total</string>
+    <string name="parameters_Pb_Tot_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments. Avoid skin contact.</string>
+    <string name="parameters_Pb_Tot_Consequencs">Acute Poisoning: Diarrhea, abdominal pain, nausea, vomiting and irritavility fatigue.
+Chronic Effects:  Impared cognitive and motor skilss, memory difficulties, muscle weakness, abdominal pain, high blood pressure, heart disease, kidney damage and immune system effects.</string>
+    <string name="parameters_Pb_Tot_treatment_Recommendation">In order ro remove Lead from the water one must use specific filter for Lead removing filters and reverse osmosis.</string>
+
+    <string name="parameters_TURB_Long_Name">Turbidity</string>
+    <string name="parameters_TURB_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments.
+Turbidity may be an indicator of water pollution</string>
+    <string name="parameters_TURB_Consequencs"></string>
+    <string name="parameters_TURB_treatment_Recommendation"></string>
+
+    <string name="parameters_pH_higher_Long_Name">pH+</string>
+    <string name="parameters_pH_higher_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments.
+</string>
+    <string name="parameters_pH_higher_Consequencs">Acute Poisoning: Abdominal and ingestion discomfort.
+Chronic Effects:  Metabolic aucaloses.</string>
+    <string name="parameters_pH_higher_treatment_Recommendation">In order to treat this water one must add sulfuric acid, hydrochloric acid and carbon dioxide.</string>
+
+    <string name="parameters_pH_low_Long_Name">pH-</string>
+    <string name="parameters_pH_low_health_Recommendation">It is strongly advised against drinking or cooking with this water without proper treatments.
+</string>
+    <string name="parameters_pH_low_Consequencs">Acute Poisoning: Abdominal pain, nausea and vomiting.
+Chronic Effects:  Dental errosion and metabolic acidoses.</string>
+    <string name="parameters_pH_low_treatment_Recommendation">In order to treat this water one must add sodium carbonate, sodium hydroxide and potassium hydroxide.</string>
 </resources>

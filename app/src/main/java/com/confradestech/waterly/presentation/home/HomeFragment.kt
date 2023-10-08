@@ -27,6 +27,7 @@ import com.confradestech.waterly.utilites.CommonConstants.FIRESTORE_FAUNA_DATA
 import com.confradestech.waterly.utilites.CommonConstants.FIRESTORE_FLORA_DATA
 import com.confradestech.waterly.utilites.CommonConstants.FIRESTORE_WATERLY_DATA
 import com.confradestech.waterly.utilites.ConnectivityChecker
+import com.confradestech.waterly.utilites.extensions.navigateSafe
 import com.confradestech.waterly.utilites.extensions.showAppSettings
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -111,12 +112,17 @@ class HomeFragment : Fragment() {
                             requireContext().showAppSettings()
                         },
                         openWaterMoreInfo = {
-                            println("Xablau aqui o it -> $it")
+                            viewModel.setSelectedWaterEntry(it)
+                            navigateToWaterDetails()
                         }
                     )
                 }
             }
         }
+    }
+
+    private fun navigateToWaterDetails() {
+        navigateSafe(R.id.action_homeFragment_to_waterDataDetailsFragment)
     }
 
     @Composable
