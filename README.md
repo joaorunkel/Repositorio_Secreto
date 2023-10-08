@@ -58,7 +58,13 @@ For health-related information and safety recommendations, we utilize sources fr
 
 Watch a video demonstration of our app's features and functionalities:
 
-<iframe width="560" height="315" src="Assets/waterly.mp4" frameborder="0" allowfullscreen></iframe>
+[<img src="https://img.youtube.com/vi/z1mu2UbSIZE/hqdefault.jpg" width="600" height="300"
+/>](https://www.youtube.com/embed/z1mu2UbSIZE)
+
+
+
+## Colaborators
+
 
 
 
