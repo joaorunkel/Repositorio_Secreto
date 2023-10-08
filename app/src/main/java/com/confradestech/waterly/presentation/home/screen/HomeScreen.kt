@@ -1,6 +1,7 @@
 package com.confradestech.waterly.presentation.home.screen
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.tween
@@ -8,6 +9,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,16 +25,27 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -43,11 +56,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.confradestech.waterly.R
+import com.confradestech.waterly.datasources.models.WaterEntry
 import com.confradestech.waterly.datasources.states.HomeFragmentState
 import com.confradestech.waterly.datasources.states.FaunaMarkerInfoState
 import com.confradestech.waterly.datasources.states.FloraMarkerInfoState
@@ -81,11 +97,20 @@ fun HomeScreen(
     homeState: HomeFragmentState,
     searchEntries: (Float, List<String>) -> Unit,
     openPhoneSettings: () -> Unit,
+    openWaterMoreInfo: (WaterEntry?) -> Unit,
 ) {
+
+    val coroutineScope = rememberCoroutineScope()
 
     val listToSearch = remember {
         mutableListOf<String>()
     }
+
+    val waterEntryToShowMore = remember {
+        mutableStateOf<WaterEntry?>(null)
+    }
+
+    var sliderPosition by remember { mutableFloatStateOf(0f) }
 
     val checkBoxList = remember {
         mutableStateListOf<ToggleableCheckboxState>(
@@ -103,6 +128,22 @@ fun HomeScreen(
             )
         )
     }
+
+    val cameraPositionState = rememberCameraPositionState()
+
+    homeState.userLastLocation?.let {
+        coroutineScope.launch {
+            cameraPositionState.animate(
+                CameraUpdateFactory.newCameraPosition(
+                    CameraPosition.fromLatLngZoom(
+                        LatLng(it.latitude, it.longitude),
+                        MAPS_ZOOM
+                    )
+                ), 1500
+            )
+        }
+    }
+
     if (homeState.havePermissions == true) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -120,7 +161,6 @@ fun HomeScreen(
                     color = MaterialTheme.colorScheme.onTertiary,
                     tonalElevation = AlertDialogDefaults.TonalElevation
                 ) {
-                    var sliderPosition by remember { mutableFloatStateOf(0f) }
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -223,9 +263,9 @@ fun HomeScreen(
 
                                             val text =
                                                 when (checkBoxList[index].toggleableInfo.toString()) {
-                                                    FIRESTORE_WATERLY_DATA -> "Registros de água"
-                                                    FIRESTORE_FLORA_DATA -> "Registros de flora"
-                                                    FIRESTORE_FAUNA_DATA -> "Registros de fauna"
+                                                    FIRESTORE_WATERLY_DATA -> stringResource(id = R.string.waterly_data)
+                                                    FIRESTORE_FLORA_DATA -> stringResource(id = R.string.flora_data)
+                                                    FIRESTORE_FAUNA_DATA -> stringResource(id = R.string.fauna_data)
                                                     else -> ""
                                                 }
                                             Text(
@@ -238,9 +278,52 @@ fun HomeScreen(
                             }
                         }
                     }
+
                 }
             },
-            bottomBar = { /* NO-OP */ },
+            bottomBar = {
+                AnimatedVisibility(
+                    visible = waterEntryToShowMore.value != null,
+                    enter = expandVertically(animationSpec = tween(durationMillis = 1000)),
+                    exit = shrinkVertically(animationSpec = tween(durationMillis = 1000)) + fadeOut(
+                        animationSpec = tween(
+                            durationMillis = 800
+                        )
+                    )
+                ) {
+                    waterEntryToShowMore.value?.let {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(dimensionResource(id = R.dimen.spacing_10))
+                        ) {
+                            Button(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { openWaterMoreInfo(it) },
+                                content = {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center
+                                    ) {
+                                        Icon(
+                                            Icons.Filled.Info,
+                                            contentDescription = ""
+                                        )
+                                        Text(
+                                            stringResource(id = R.string.more_info).replace(
+                                                "#name",
+                                                it.stationIdentifier
+                                            )
+                                        )
+                                    }
+                                }
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacing_15)))
+                    }
+                }
+            },
             snackbarHost = { /* NO-OP */ },
             floatingActionButton = {/* NO-OP */ },
             floatingActionButtonPosition = FabPosition.End,
@@ -256,8 +339,6 @@ fun HomeScreen(
                 val floraPositions = remember {
                     mutableListOf<FloraMarkerInfoState>()
                 }
-
-                val coroutineScope = rememberCoroutineScope()
 
                 val localContext = LocalContext.current
 
@@ -294,21 +375,6 @@ fun HomeScreen(
                     )
                 }
 
-                val cameraPositionState = rememberCameraPositionState()
-
-                homeState.userLastLocation?.let {
-                    coroutineScope.launch {
-                        cameraPositionState.animate(
-                            CameraUpdateFactory.newCameraPosition(
-                                CameraPosition.fromLatLngZoom(
-                                    LatLng(it.latitude, it.longitude),
-                                    MAPS_ZOOM
-                                )
-                            ), 1500
-                        )
-                    }
-                }
-
                 Box(Modifier.fillMaxSize()) {
 
                     AnimatedVisibility(
@@ -324,22 +390,23 @@ fun HomeScreen(
                         )
                     }
 
-                    val markerClick: (Marker) -> Boolean = {
-                        if (it.isInfoWindowShown) {
-                            it.hideInfoWindow()
+                    val markerClick: (Marker, WaterEntry?) -> Boolean = { marker, waterEntry ->
+                        sliderPosition = 0F
+                        waterEntryToShowMore.value = waterEntry
+                        if (marker.isInfoWindowShown) {
+                            marker.hideInfoWindow()
                         } else {
-                            it.showInfoWindow()
+                            marker.showInfoWindow()
                         }
                         coroutineScope.launch {
                             cameraPositionState.animate(
                                 CameraUpdateFactory.newCameraPosition(
-                                    CameraPosition.fromLatLngZoom(it.position, MAPS_ZOOM)
+                                    CameraPosition.fromLatLngZoom(marker.position, MAPS_ZOOM)
                                 ), 1500
                             )
                         }
                         false
                     }
-
 
                     if (homeState.isLoading == false) {
                         GoogleMap(
@@ -358,7 +425,7 @@ fun HomeScreen(
                                     state = MarkerState(
                                         position = markerInfoState.markerPosition ?: INVALID_LAT_LNG
                                     ),
-                                    onClick = markerClick,
+                                    onClick = { markerClick(it, markerInfoState.waterEntry) },
                                     icon = BitmapDescriptorFactory.fromBitmap(
                                         localContext.drawableToBitmap(R.drawable.baseline_water_drop_24)
                                     )
@@ -380,24 +447,45 @@ fun HomeScreen(
                                         Column(
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .padding(
-                                                    start = dimensionResource(id = R.dimen.spacing_10),
-                                                    end = dimensionResource(id = R.dimen.spacing_10),
-                                                )
+                                                .padding(dimensionResource(id = R.dimen.spacing_20))
                                         ) {
                                             markerInfoState.waterEntry?.stationIdentifier?.let {
-                                                if (it.isEmpty().not()){
-                                                    Text(
-                                                        it,
-                                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                                if (it.isEmpty().not()) {
+                                                    OutlinedTextField(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        value = stringResource(id = R.string.station_identifier).replace(
+                                                            "#name",
+                                                            it
+                                                        ),
+                                                        readOnly = true,
+                                                        onValueChange = { /*No-op*/ },
+                                                        label = { /*No-op*/ },
+                                                        leadingIcon = {
+                                                            Icon(
+                                                                Icons.Filled.Home,
+                                                                contentDescription = ""
+                                                            )
+                                                        },
                                                     )
                                                 }
                                             }
                                             markerInfoState.waterEntry?.waterType?.let {
-                                                if (it.isEmpty().not()){
-                                                    Text(
-                                                        it,
-                                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                                if (it.isEmpty().not()) {
+                                                    OutlinedTextField(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        value = stringResource(id = R.string.type).replace(
+                                                            "#name",
+                                                            it
+                                                        ),
+                                                        readOnly = true,
+                                                        onValueChange = { /*No-op*/ },
+                                                        label = { /*No-op*/ },
+                                                        leadingIcon = {
+                                                            Icon(
+                                                                Icons.Filled.Build,
+                                                                contentDescription = ""
+                                                            )
+                                                        },
                                                     )
                                                 }
                                             }
@@ -412,7 +500,7 @@ fun HomeScreen(
                                         position = faunaMarkerInfoState.markerPosition
                                             ?: INVALID_LAT_LNG
                                     ),
-                                    onClick = markerClick,
+                                    onClick = { markerClick(it, null) },
                                     icon = BitmapDescriptorFactory.fromBitmap(
                                         localContext.drawableToBitmap(R.drawable.baseline_diversity_2_24)
                                     )
@@ -434,32 +522,65 @@ fun HomeScreen(
                                         Column(
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .padding(
-                                                    start = dimensionResource(id = R.dimen.spacing_10),
-                                                    end = dimensionResource(id = R.dimen.spacing_10),
-                                                )
+                                                .padding(dimensionResource(id = R.dimen.spacing_20))
                                         ) {
                                             faunaMarkerInfoState.faunaEntry?.scientific_name?.let {
-                                                if (it.isEmpty().not()){
-                                                    Text(
-                                                        it,
-                                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                                if (it.isEmpty().not()) {
+                                                    OutlinedTextField(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        value = stringResource(id = R.string.scientific_name).replace(
+                                                            "#name",
+                                                            it
+                                                        ),
+                                                        readOnly = true,
+                                                        onValueChange = { /*No-op*/ },
+                                                        label = { /*No-op*/ },
+                                                        leadingIcon = {
+                                                            Icon(
+                                                                Icons.Filled.List,
+                                                                contentDescription = ""
+                                                            )
+                                                        },
                                                     )
                                                 }
                                             }
                                             faunaMarkerInfoState.faunaEntry?.vernacular_name?.let {
-                                                if (it.isEmpty().not()){
-                                                    Text(
-                                                        it,
-                                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                                if (it.isEmpty().not()) {
+                                                    OutlinedTextField(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        value = stringResource(id = R.string.vernacular_name).replace(
+                                                            "#name",
+                                                            it
+                                                        ),
+                                                        readOnly = true,
+                                                        onValueChange = { /*No-op*/ },
+                                                        label = { /*No-op*/ },
+                                                        leadingIcon = {
+                                                            Icon(
+                                                                Icons.Filled.Star,
+                                                                contentDescription = ""
+                                                            )
+                                                        },
                                                     )
                                                 }
                                             }
                                             faunaMarkerInfoState.faunaEntry?.type?.let {
-                                                if (it.isEmpty().not()){
-                                                    Text(
-                                                        it,
-                                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                                if (it.isEmpty().not()) {
+                                                    OutlinedTextField(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        value = stringResource(id = R.string.type).replace(
+                                                            "#name",
+                                                            it
+                                                        ),
+                                                        readOnly = true,
+                                                        onValueChange = { /*No-op*/ },
+                                                        label = { /*No-op*/ },
+                                                        leadingIcon = {
+                                                            Icon(
+                                                                Icons.Filled.Build,
+                                                                contentDescription = ""
+                                                            )
+                                                        },
                                                     )
                                                 }
                                             }
@@ -474,7 +595,7 @@ fun HomeScreen(
                                         position = floraMarkerInfoState.markerPosition
                                             ?: INVALID_LAT_LNG
                                     ),
-                                    onClick = markerClick,
+                                    onClick = { markerClick(it, null) },
                                     icon = BitmapDescriptorFactory.fromBitmap(
                                         localContext.drawableToBitmap(R.drawable.baseline_flora_24)
                                     )
@@ -496,24 +617,65 @@ fun HomeScreen(
                                         Column(
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .padding(
-                                                    start = dimensionResource(id = R.dimen.spacing_10),
-                                                    end = dimensionResource(id = R.dimen.spacing_10),
-                                                )
+                                                .padding(dimensionResource(id = R.dimen.spacing_20))
                                         ) {
                                             floraMarkerInfoState.floraEntry?.scientific_name?.let {
-                                                if (it.isEmpty().not()){
-                                                    Text(
-                                                        it,
-                                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                                if (it.isEmpty().not()) {
+                                                    OutlinedTextField(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        value = stringResource(id = R.string.scientific_name).replace(
+                                                            "#name",
+                                                            it
+                                                        ),
+                                                        readOnly = true,
+                                                        onValueChange = { /*No-op*/ },
+                                                        label = { /*No-op*/ },
+                                                        leadingIcon = {
+                                                            Icon(
+                                                                Icons.Filled.List,
+                                                                contentDescription = ""
+                                                            )
+                                                        },
                                                     )
                                                 }
                                             }
                                             floraMarkerInfoState.floraEntry?.vernacular_name?.let {
-                                                if (it.isEmpty().not()){
-                                                    Text(
-                                                        it,
-                                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                                if (it.isEmpty().not()) {
+                                                    OutlinedTextField(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        value = stringResource(id = R.string.vernacular_name).replace(
+                                                            "#name",
+                                                            it
+                                                        ),
+                                                        readOnly = true,
+                                                        onValueChange = { /*No-op*/ },
+                                                        label = { /*No-op*/ },
+                                                        leadingIcon = {
+                                                            Icon(
+                                                                Icons.Filled.Star,
+                                                                contentDescription = ""
+                                                            )
+                                                        },
+                                                    )
+                                                }
+                                            }
+                                            floraMarkerInfoState.floraEntry?.state_province?.let {
+                                                if (it.isEmpty().not()) {
+                                                    OutlinedTextField(
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        value = stringResource(id = R.string.state_province).replace(
+                                                            "#name",
+                                                            it
+                                                        ),
+                                                        readOnly = true,
+                                                        onValueChange = { /*No-op*/ },
+                                                        label = { /*No-op*/ },
+                                                        leadingIcon = {
+                                                            Icon(
+                                                                Icons.Filled.Home,
+                                                                contentDescription = ""
+                                                            )
+                                                        },
                                                     )
                                                 }
                                             }

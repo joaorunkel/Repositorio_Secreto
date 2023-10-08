@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.confradestech.waterly.R
 import com.confradestech.waterly.presentation.home.screen.HomeScreen
@@ -35,7 +36,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private val viewModel by viewModels<HomeViewModel>()
+    private val viewModel by activityViewModels<HomeViewModel>()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     @Inject
@@ -108,6 +109,9 @@ class HomeFragment : Fragment() {
                         },
                         openPhoneSettings = {
                             requireContext().showAppSettings()
+                        },
+                        openWaterMoreInfo = {
+                            println("Xablau aqui o it -> $it")
                         }
                     )
                 }

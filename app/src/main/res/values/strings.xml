@@ -21,5 +21,13 @@
     <string name="fauna_data">Fauna data</string>
     <string name="flora_data">Flora data</string>
 
+    <!--    Marker details-->
+    <string name="vernacular_name">Vernacular name: #name</string>
+    <string name="scientific_name">Scientific name: #name</string>
+    <string name="state_province">State province: #name</string>
+    <string name="type">Type: #name</string>
+    <string name="station_identifier">Station: #name</string>
+    <string name="more_info">More info about #name</string>
+
 
 </resources>
